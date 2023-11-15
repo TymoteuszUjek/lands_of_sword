@@ -37,7 +37,6 @@ urlpatterns = [
     path('carpentry_shop/', include('Carpentry_Shop.urls')),
     path('clothier/', include('Clothier.urls')),
     path('armorer/', include('Armorer.urls')),
-    path('boss_fight/', include('Boss_Fight.urls')),
 ]
 
 if settings.DEBUG:

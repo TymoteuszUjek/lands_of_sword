@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'Carpentry_Shop',
     'Clothier',
     'Armorer',
-    'Boss_Fight',
 
     # Apps from other copmanies
     'bootstrap4',
