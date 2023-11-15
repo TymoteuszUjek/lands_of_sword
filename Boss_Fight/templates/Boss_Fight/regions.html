@@ -1,0 +1,15 @@
+{% extends "Home/base.html" %}
+
+{% block content %}
+  <h2>Select a Region</h2>
+  <ul>
+    {% for region in regions %}
+      <li>
+        <a href="{% url 'Fight:countdown' %}?min_level={{ region.min_level }}&max_level={{ region.max_level }}">
+          Region ({{ region.min_level }} - {{ region.max_level }}) - {{ region.enemies.count }} enemies
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'World:main' %}">Go back to World</a></p>
+{% endblock content %}

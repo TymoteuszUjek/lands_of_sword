@@ -1,0 +1,21 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Enemy Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-md-6 mx-auto text-center " >
+        <h2 style="background-color: DarkGray; color: black; font-weight: bold;">Select a Region</h2>
+        <ul class="list-group">
+            {% for region in regions %}
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Fight:countdown' %}?min_level={{ region.min_level }}&max_level={{ region.max_level }}">
+                        Region ({{ region.min_level }} - {{ region.max_level }}) - {{ region.enemies.count }} enemies
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'Fight:fight_selector' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to Fight Selector</a></p>
+    </div>
+</body>
+{% endblock content %}

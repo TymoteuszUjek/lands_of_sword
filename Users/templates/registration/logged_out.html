@@ -1,0 +1,31 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <body style="background-image: url('{% static 'background/Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+        <div class="row rounded text-center d-flex justify-content-center" style="background-color: DarkGray">
+            <header>
+                <h1>Lands of Sword and Sorcery</h1>
+            </header>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col text-center d-flex justify-content-center" style="background-color: DarkGray; color: black; font-weight: bold;">
+                <p>You were logged out. Thank you for playing</p>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col text-center d-flex justify-content-center">
+                <a class="btn btn-primary border border-secondary" href="{% url 'Users:register' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Register</a>
+                <a class="btn btn-primary border border-secondary ml-3" href="{% url 'Users:login' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Login</a>
+            </div>
+        </div>
+
+        <footer>
+            <section class="features row rounded mt-3" style="background-color: DarkGray">
+                <p>&copy; 2023 Lands of Sword and Sorcery. All rights reserved.</p>
+            </section>
+        </footer>
+    </body>
+{% endblock content %}

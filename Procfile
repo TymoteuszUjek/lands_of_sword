@@ -1,0 +1,1 @@
+web gunicorn LoSaS.wsgi:application --log-file -

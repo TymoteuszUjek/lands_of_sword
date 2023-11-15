@@ -1,0 +1,28 @@
+.custom-heading {
+    background-color: DarkGray;
+    color: black;
+    font-weight: bold;
+}
+
+.custom-alert {
+    background-color: DarkGray;
+    color: black;
+    font-weight: bold;
+}
+
+.custom-card {
+    background-color: DarkGray;
+    color: black;
+    font-weight: bold;
+}
+
+.custom-button {
+    background-color: DarkGray;
+    color: black;
+    font-weight: bold;
+}
+
+.custom-scrollable-column {
+    overflow-y: auto;
+    max-height: 500px; 
+}

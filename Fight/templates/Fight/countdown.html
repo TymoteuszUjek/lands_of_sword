@@ -1,0 +1,14 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Enemy Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-md-6 mx-auto text-center ">
+        <h2 style="background-color: DarkGray; color: black; font-weight: bold;">Waiting for Battle</h2>
+        <p style="background-color: DarkGray; color: black; font-weight: bold;">Please wait for around {{ time_to_display }} minutes before starting the battle.</p>
+        <button id="start-countdown" onclick="startCountdown()" style="background-color: DarkGray; color: black; font-weight: bold;">Start Countdown</button>
+    </div>
+    <script src="{% static 'Fight/js/countdown.js' %}"></script>
+</body>
+{% endblock content %}

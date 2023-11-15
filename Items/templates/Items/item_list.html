@@ -1,0 +1,22 @@
+{% extends "Home/base.html" %}
+
+{% block content %}
+
+{% for item in items %}
+    <p>Name {{ item.name }}</p>
+    <p>Level {{ item.level }}</p>
+    <p>HP {{ item.hp }}</p>
+    <p>Damage {{ item.damage }}</p>
+    <p>Strength {{ item.strength }}</p>
+    <p>Intelligence {{ item.intelligence }}</p>
+    <p>Constitution {{ item.constitution }}</p>
+    <p>Dexterity {{ item.dexterity }}</p>
+    <p>Luck {{ item.luck }}</p>
+    <p>Wisdom {{ item.wisdom }}</p>
+
+{% empty %}
+    <p>No items to show</p>
+
+{% endfor %}
+
+{% endblock content %}

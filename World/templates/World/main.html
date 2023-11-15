@@ -1,0 +1,37 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <body style="background-image: url('{% static 'background/Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+        <div class="container-md-6 mx-auto text-center">
+            <h2 style="background-color: DarkGray; color: black; font-weight: bold;">Welcome to the World</h2>
+            <ul class="list-group">
+                {% if user_character_exists %}
+                    <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <a href="{% url 'Cities:cities' %}">City</a>
+                    </li>
+                    <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <a href="{% url 'Fight:fight_selector' %}">Fight</a>
+                    </li>
+                    <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <a href="{% url 'Inventory:equipment'%}">Inventory</a>
+                    </li>
+                    <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <a class="nav-link" href="{% url 'Team:character_list' %}">Team</a>
+                    </li>
+
+
+                {% else %}
+                    <div style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <p>You must create a character to access this content.</p>
+                    </div>
+                    <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <a href="{% url 'Team:create_character' %}" class="btn btn-primary">Create Character</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </body>
+{% endblock content %}
+

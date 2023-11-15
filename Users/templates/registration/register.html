@@ -1,0 +1,20 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <body style="background-image: url('{% static 'background/Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-md-12 offset-md-0">
+          <form method="post" action="{% url 'Users:register' %}" style="background-color: DarkGrey; padding: 20px; border-radius: 10px;">
+            {% csrf_token %}
+            <strong>{{ form.as_p }}</strong>
+            <button type="submit" class="btn btn-primary" style="background-color: DarkGray; color: black; font-weight: bold;">Register</button>
+            <input type="hidden" name="next" value="{% url 'World:main' %}" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <body style="background-image: url('{% static 'background/Background.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+        <div class="row rounded" style="background-color: DarkGray">
+            <header>
+                <h1>Welcome to the Lands of Sword and Sorcery</h1>
+            </header>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col text-center d-flex justify-content-center">
+                <a class="btn btn-primary border border-secondary" href="{% url 'Users:register' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Register</a>
+                <a class="btn btn-primary border border-secondary ml-3" href="{% url 'Users:login' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Login</a>
+            </div>
+        </div>
+     
+            <section class="hero row rounded mt-3" style="background-color: DarkGray">
+                <h2>Embark on an Epic Journey</h2>
+                <p>Welcome to the mystical world of Sword and Sorcery, a realm filled with magic, monsters, and adventure. As a brave adventurer, you'll face formidable challenges, forge alliances, and unravel the secrets of a world threatened by a rising evil.</p>
+            </section>
+
+
+            <section class="world-history row rounded mt-3" style="background-color: DarkGray">
+                <h2>The Tale of Sword and Sorcery</h2>
+                <p>In the ancient lands of Sword and Sorcery, a once-peaceful world is now on the brink of darkness. A malevolent force has risen, shrouding the realm in chaos and despair. This newly born evil has united monstrous hordes and wicked sorcerers, posing a dire threat to the entire world.</p>
+                <p>It is a time for heroes to rise, for the races of this land to unite, and for adventurers to journey into the heart of darkness. Will you stand against the tide of evil, or will you succumb to the malevolence that seeks to engulf the Lands of Sword and Sorcery?</p>
+            </section>
+
+            <section class="features row rounded mt-3" style="background-color: DarkGray">
+                <h2>Game Features</h2>
+                <ul>
+                    <li>Choose from a variety of races and classes for your character.</li>
+                    <li>Engage in epic battles against hordes of monsters and rival players.</li>
+                    <li>Explore a rich and immersive medieval fantasy world.</li>
+                    <li>Uncover the deep lore and secrets of the realm as you progress in the game.</li>
+                    <li>Form alliances, forge friendships, and face challenges together with other players.</li>
+                </ul>
+            </section>
+ 
+        <footer>
+            <section class="features row rounded mt-3" style="background-color: DarkGray">
+                <p>&copy; 2023 Lands of Sword and Sorcery. All rights reserved.</p>
+            </section>
+        </footer>
+    </body>
+{% endblock content %}

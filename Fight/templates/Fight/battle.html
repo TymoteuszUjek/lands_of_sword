@@ -1,0 +1,55 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Fight.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-md-6 mx-auto text-center">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> <!-- Link the style.css file -->
+        <h2 class="mt-6 custom-heading">Battle Results</h2>
+
+        {% if battle_result == 'win' %}
+            <div class="alert alert-success border border-secondary custom-alert">
+                <p>Congratulations! You defeated {{ random_enemy.name }}!</p>
+                <h3>Item obtained in combat:</h3>
+                <ul>
+                    {% with image_path="item_images/"|add:new_items.0.name|add:".jpg" %}
+                    <img src="{% static image_path %}" alt="{{ new_items.0.name }}" width="100" height="100">
+                    {% endwith %}
+                </ul>
+                <p>{{ item_message }}</p>
+
+                <p>Gold earned {{ earned_gold }}</p>
+                <p>Exp earned {{ earned_exp }}</p>
+            </div>
+        {% elif battle_result == 'lose' %}
+            <div class="alert alert-danger border border-secondary custom-alert">
+                <p>Unfortunately, {{ random_enemy.name }} defeated your character.</p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning custom-alert">
+                <p>The battle outcome is undecided. It's a draw!</p>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <div class="card rounded border border-secondary custom-card">
+                    <h3>Total Damage Taken by User:</h3>
+                    <p>{{ total_user_damage }}</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <div class="card rounded border border-secondary custom-card">
+                    <h3>Total Damage Taken by Enemy:</h3>
+                    <p>{{ total_enemy_damage }}</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'World:main' %}" class="btn btn-primary mt-3 border border-secondary custom-button">Go back to World</a>
+    </div>
+</body>
+
+{% endblock content %}

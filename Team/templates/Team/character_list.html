@@ -1,0 +1,92 @@
+{% extends "Home/base.html" %}
+{% load static %}
+{% block content %}
+<body style="background-image: url('{% static 'background/Inventory.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container">
+        <div class="row">
+            {% for character in characters %}
+                <div class="col-md-4">
+                    <div class="card mb-4 border border-secondary mt-3" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <div class="text-center">
+                            {% with character_image="character_images/"|add:character.character_class.name|add:" "|add:character.character_race.name|add:" "|add:character.sex|add:".jpg" %}
+                            <img src="{% static character_image %}" alt="{{ character.character_class.name }} {{ character.character_race.name }} {{ character.sex }}" width="270" height="300" style="padding-right: 10px;">
+                            {% endwith %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ character.name }}</h5>
+                            <p class="card-text">Class: {{ character.character_class }}</p>
+                            <p class="card-text">Race: {{ character.character_race }}</p>
+                            <p class="card-text">Level: {{ character.level }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 border border-secondary mt-3" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <div class="card-body">
+                            <p class="card-text">Life: {{ character.life }}</p>
+                            <p class="card-text">Strength: {{ character.strength }}</p>
+                            <p class="card-text">Intelligence: {{ character.intelligence }}</p>
+                            <p class="card-text">Constitution: {{ character.constitution }}</p>
+                            <p class="card-text">Dexterity: {{ character.dexterity }}</p>
+                            <p class="card-text">Wisdom: {{ character.wisdom }}</p>
+                            <p class="card-text">Luck: {{ character.luck }}</p>
+                            <p class="card-text">Skill Points: {{ character.skill_points }}</p>
+                            <p class="card-text">Experience Points: {{ character.experience_points }} / {{ experience_needed_for_next_level }}</p>
+                            <p class="card-text">Gold: {{ character.gold }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 border border-secondary mt-3" style="background-color: DarkGray; color: black; font-weight: bold;">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="character_id" value="{{ character.id }}">
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="strength" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Strength</button>
+                                </div>
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="intelligence" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Intelligence</button>
+                                </div>
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="constitution" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Constitution</button>
+                                </div>
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="dexterity" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Dexterity</button>
+                                </div>
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="wisdom" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Wisdom</button>
+                                </div>
+                                <div>
+                                    <button type="submit" name="stat_to_increase" value="luck" {% if character.skill_points == 0 %}disabled{% endif %}>Increase Luck</button>
+                                </div>
+                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="character_id" value="{{ character.id }}">
+                                <select name="stat_to_increase">
+                                    <option value="strength">Strength</option>
+                                    <option value="intelligence">Intelligence</option>
+                                    <option value="constitution">Constitution</option>
+                                    <option value="dexterity">Dexterity</option>
+                                    <option value="wisdom">Wisdom</option>
+                                    <option value="luck">Luck</option>
+                                </select>
+                                <div>
+                                    <button type="submit" name="assign_all_points" {% if character.skill_points == 0 %}disabled{% endif %}>Assign All Skill Points to Selected Stat</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if not characters %}
+            <a href="{% url 'Team:create_character' %}" class="btn btn-primary">Create Character</a>
+        {% endif %}
+    </div>
+    <div class="col text-center">
+        <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'World:main' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to World</a></p>
+    </div>
+</body>
+{% endblock content %}

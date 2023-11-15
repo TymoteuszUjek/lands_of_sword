@@ -1,0 +1,54 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Arena.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="mx-auto col-md-4">
+                <div class="card rounded border border-secondary">
+                    <div class="row rounded" style="background-color: DarkGray">
+                        <div class="mx-auto">
+                            {% with character_image="character_images/"|add:user_character.character_class.name|add:" "|add:user_character.character_race.name|add:" "|add:user_character.sex|add:".jpg" %}
+                            <img src="{% static character_image %}" alt="{{ user_character.character_class.name }} {{ user_character.character_race.name }} {{ user_character.sex }}" width="270" height="300" style="padding-right: 10px;">
+                            {% endwith %}
+                        </div>
+                        <div class="mx-auto">
+                            <h5 class="card-title">Name: {{ user_character.name }}</h5>
+                            <p class="card-text">Class: {{ user_character.character_class }}</p>
+                            <p class="card-text">Race: {{ user_character.character_race }}</p>
+                            <p class="card-text">Life: {{ user_max_life }}</p>
+                            <p class="card-text">Level: {{ user_character.level }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mx-auto col-md-4">
+                <div class="card rounded border border-secondary">
+                    <div class="row rounded" style="background-color: DarkGray">
+                        <div class="mx-auto">
+                            {% with character_image="character_images/"|add:enemy_character.character_class.name|add:" "|add:enemy_character.character_race.name|add:" "|add:enemy_character.sex|add:".jpg" %}
+                            <img src="{% static character_image %}" alt="{{ enemy_character.character_class.name }} {{ enemy_character.character_race.name }} {{ enemy_character.sex }}" width="270" height="300" style="padding-right: 10px;">
+                            {% endwith %}
+                        </div>
+                        <div class="mx-auto">
+                            <h5 class="card-title">Name: {{ enemy_character.name }}</h5>
+                            <p class="card-text">Class: {{ enemy_character.character_class }}</p>
+                            <p class="card-text">Race: {{ enemy_character.character_race }}</p>
+                            <p class="card-text">Life: {{ enemy_max_life }}</p>
+                            <p class="card-text">Level: {{ enemy_character.level }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col text-center">
+                <a class="btn btn-primary border border-secondary" href="{% url 'Arena:arena_fight' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Battle</a>
+                <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'Fight:fight_selector' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to Fight Selector</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

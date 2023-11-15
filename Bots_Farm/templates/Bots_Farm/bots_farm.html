@@ -1,0 +1,28 @@
+{% extends "Home/base.html" %}
+
+{% block content %}
+
+{% for enemy in enemies %}
+    <p>Name: {{ enemy.name }}</p>
+    <p>Class: {{ enemy.enemy_class }}</p>
+    <p>Race: {{ enemy.enemy_race }}</p>
+    <p>Life: {{ enemy.life }}</p>
+    <p>Strength {{ enemy.strength }}</p>
+    <p>Intelligence {{ enemy.intelligence }}</p>
+    <p>Constitution {{ enemy.constitution }}</p>
+    <p>Dexterity {{ enemy.dexterity }}</p>
+    <p>Wisdom {{ enemy.wisdom }}</p>
+    <p>Luck {{ enemy.luck }}</p>
+    <p>Armor {{ enemy.armor }}</p>
+    <p>Magic Resistance {{ enemy.magic_res }}</p>
+    <p>------</p>
+{% empty %}
+    <p>No enemies to display.</p>
+{% endfor %}
+
+<p>
+    <!-- Existing navigation links... -->
+    <a href="{% url 'Fight:countdown' %}">Battle</a> -
+</p>
+
+{% endblock content %}

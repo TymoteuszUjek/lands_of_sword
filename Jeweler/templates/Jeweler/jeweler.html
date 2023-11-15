@@ -1,0 +1,137 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Jeweler.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-md-6 mx-auto text-center">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <h1 class="mt-6 custom-heading">Jeweler</h1>
+        
+        <p class="custom-alert">
+          Your Gold: {{ user_gold }}<br>
+          Remaining purchases: {{ remaining_purchases }}<br>
+          {% if remaining_purchases > 0 %}
+              Store is recharged
+          {% else %}
+              Store recharge in: <span id="countdown_1">{{ remaining_time_minutes }} min {{ remaining_time_seconds }} sec</span>
+          {% endif %}
+        </p>
+
+        <div class="row">
+            <div class="col-md-6 custom-scrollable-column">
+                <h2 class="mt-6 custom-heading">Items for Sale:</h2>
+                <ul class="list-group">
+                    {% for item in items_for_sale %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center custom-card">
+                        <div>
+                            {% with image_path="item_images/"|add:item.name|add:".jpg" %}
+                            <img src="{% static image_path %}" alt="{{ item.name }}" width="80" height="80" 
+                              data-toggle="tooltip" data-placement="top" 
+                              title="Price: {{ item.price }} Gold | 
+                                      Level: {{ item.level }} |
+                                      HP: {{ item.hp }} |
+                                      Damage: {{ item.damage }} |
+                                      Strength: {{ item.strength }} |
+                                      Intelligence: {{ item.intelligence }} |
+                                      Constitution: {{ item.constitution }} |
+                                      Dexterity: {{ item.dexterity }} |
+                                      Luck: {{ item.luck }} |
+                                      Wisdom: {{ item.wisdom }} |"> 
+                            {% endwith %}
+                            {{ item.name }}
+                        </div>
+                        <form method="post" action="{% url 'Jeweler:jeweler' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <input type="hidden" name="action" value="buy">
+                            {% if remaining_purchases > 0 %}
+                                <button type="submit" class="btn btn-primary custom-button">Buy</button>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary custom-button" disabled>Buy</button>
+                            {% endif %}
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-6 custom-scrollable-column">
+                <h2 class="mt-6 custom-heading">Your Backpack:</h2>
+                <ul class="list-group">
+                    {% for inventory_item in user_inventory %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center custom-card">
+                        <div>
+                            {% with image_path="item_images/"|add:inventory_item.name|add:".jpg" %}
+                            <img src="{% static image_path %}" alt="{{ inventory_item.name }}" width="80" height="80" 
+                            data-toggle="tooltip" data-placement="top" 
+                            title="Price: {{ inventory_item.price }} Gold |
+                                   Level: {{ inventory_item.level }} |
+                                   HP: {{ inventory_item.hp }} |
+                                   Damage: {{ inventory_item.damage }} |
+                                   Strength: {{ inventory_item.strength }} |
+                                   Intelligence: {{ inventory_item.intelligence }} |
+                                   Constitution: {{ inventory_item.constitution }} |
+                                   Dexterity: {{ inventory_item.dexterity }} |
+                                   Luck: {{ inventory_item.luck }} |
+                                   Wisdom: {{ inventory_item.wisdom }} |
+                                   Ench Level: {{ inventory_item.enhancement_level }}">
+                            {% endwith %}
+                            {{ inventory_item.name }}
+                        </div>
+                        <form method="post" action="{% url 'Jeweler:jeweler' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{ inventory_item.item.id }}">
+                            <input type="hidden" name="action" value="sell">
+                            <button type="submit" class="btn btn-danger custom-button">Sell</button>
+                        </form>
+
+                        <form method="post" action="{% url 'Jeweler:jeweler' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="item_id" value="{{ inventory_item.item.id }}">
+                            <input type="hidden" name="action" value="upgrade">
+                            <button type="submit" class="btn btn-success custom-button">Upgrade ({{ inventory_item.enhancement_cost }} gold)</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'Cities:cities' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to City</a></p>
+    </div>
+</body>
+
+<script>
+    // Initialize Bootstrap tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Countdown timer logic
+    var countdownElement = document.getElementById('countdown_1');
+    var remainingMinutes = parseInt("{{ remaining_time_minutes }}");  // Default to 0 if NaN
+    var remainingSeconds = parseInt("{{ remaining_time_seconds }}");  // Default to 0 if NaN
+    var isPageRefreshed = false;
+
+    function updateCountdown_1() {
+        countdownElement.innerHTML = remainingMinutes + " min " + remainingSeconds + " sec";
+
+        if (remainingMinutes === 0 && remainingSeconds === 0 && !isPageRefreshed) {
+            isPageRefreshed = true;  // Set the flag to true to indicate page refresh
+            // Reload the page after 1 second
+            setTimeout(function () {
+                location.reload();
+            }, 1500);
+        } else {
+            if (remainingSeconds === 0) {
+                remainingMinutes--;
+                remainingSeconds = 59;
+            } else {
+                remainingSeconds--;
+            }
+        }
+    }
+
+    setInterval(updateCountdown_1, 1000);
+</script>
+{% endblock content %}

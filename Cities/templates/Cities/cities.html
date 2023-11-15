@@ -1,0 +1,32 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <body style="background-image: url('{% static 'background/City.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+        <div class="container-md-6 mx-auto text-center ">
+            <h2 style="background-color: DarkGray; color: black; font-weight: bold;">Welcome to the City</h2>
+            <ul class="list-group">
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Armorer:armorer' %}">Visit the Armorer</a>
+                </li>
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Blacksmith:blacksmith' %}">Visit the Blacksmith</a>
+                </li>
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Carpentry_Shop:carpentry_shop' %}">Visit the Carpentry Shop</a>
+                </li>
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Clothier:clothier' %}">Visit the Clothier</a>
+                </li>
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Jeweler:jeweler' %}">Visit the Jeweler</a>
+                </li>
+                <li class="list-group-item mt-2" style="background-color: DarkGray; color: black; font-weight: bold;">
+                    <a href="{% url 'Tavern:task_master' %}">Tavern</a>
+                </li>
+            </ul>
+            <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'World:main' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to World</a></p>
+        </div>
+    </body>
+{% endblock content %}

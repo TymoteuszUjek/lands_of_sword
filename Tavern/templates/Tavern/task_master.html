@@ -1,0 +1,66 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <body style="background-image: url('{% static 'background/Tavern.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+        <div class="container">
+            <h1 class="text-center " style="background-color: DarkGray; color: black; font-weight: bold;">Your Tavern Tasks</h1>
+            <div class="text-center mt-2">
+                <a href="{% url 'Tavern:reset_tasks' %}" class="btn btn-danger">Reset All Tasks</a>
+            </div>
+            <div class="row">
+                {% for task in tasks %}
+                    <div class="col-md-4 mt-2 text-center">
+                        <div class="card mb-4" style="background-color: DarkGray; color: black;">
+                            <div class="card-body">
+                                <h4 class="card-title"><strong>{{ task.task_name }}</strong></h4>
+                                <b class="card-text">Description: </b>
+                                <p>{{ task.task_description }}</p>
+                                <p class="card-text">Gold Reward: {{ task.gold_reward }}</p>
+
+                                {% if task.enemies_to_defeat > 0 %}
+                                    <p class="card-text">Enemies to Defeat: {{ task.enemies_to_defeat }}</p>
+                                {% endif %}
+                                {% if task.gold_to_earn > 0 %}
+                                    <p class="card-text">Gold to Earn: {{ task.gold_to_earn }}</p>
+                                {% endif %}
+                                {% if task.players_to_defeat > 0 %}
+                                    <p class="card-text">Players to Defeat: {{ task.players_to_defeat }}</p>
+                                {% endif %}
+
+                                {% if not task.is_completed %}
+                                    {% if not task.is_active and not character.has_active_task %}
+                                        <a href="{% url 'Tavern:activate_task' task.id %}" class="btn btn-success">Activate Task</a>
+                                    {% else %}
+                                        {% if task.is_active %}
+                                            <p class="card-text">Task Active</p>
+                                            {% if task.enemies_to_defeat > 0 %}
+                                                <p class="card-text">(Progress: {{ character.killed_monsters }})</p>
+                                            {% endif %}
+                                            {% if task.gold_to_earn > 0 %}
+                                                <p class="card-text">(Progress: {{ character.collected_gold }})</p>
+                                            {% endif %}
+                                            {% if task.players_to_defeat > 0 %}
+                                                <p class="card-text">(Progress: {{ character.killed_players }})</p>
+                                            {% endif %}
+                                            <a href="{% url 'Tavern:complete_task' task.id %}" class="btn btn-primary">Complete Task</a>
+                                        {% elif character.has_active_task %}
+                                            <p class="card-text">Another task is already active</p>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <p class="card-text">Task Completed</p>
+                                    <a href="{% url 'Tavern:claim_reward' task.id %}" class="btn btn-info">Claim Reward</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'World:main' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to World</a></p>
+            </div>
+        </div>
+    </body>
+{% endblock content %}

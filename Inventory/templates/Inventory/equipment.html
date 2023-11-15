@@ -1,0 +1,127 @@
+{% extends "Home/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body style="background-image: url('{% static 'background/Inventory.jpg' %}'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container-md-6 mx-auto text-center">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        
+        <div class="row">
+            <div class="col-md-4 custom-scrollable-column">
+                <h2 class="mt-6 custom-heading">Equipment:</h2>
+                <ul class="list-group">
+                    {% for item_type, equipped_items in equipped_items_by_type.items %}
+                        <h3 style="background-color: DarkGray; color: black; font-weight: bold;">{{ item_type|capfirst }}</h3>
+                        {% for item in equipped_items %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center custom-card">
+                                <div>
+                                    {% with image_path="item_images/"|add:item.name|add:".jpg" %}
+                                    <img src="{% static image_path %}" alt="{{ item.name }}" width="80" height="80" 
+                                          data-toggle="tooltip" data-placement="top" 
+                                          title="Strength: {{ item.strength }} | 
+                                                 Intelligence: {{ item.intelligence }} | 
+                                                 Constitution: {{ item.constitution }} | 
+                                                 Dexterity: {{ item.dexterity }} | 
+                                                 Luck: {{ item.luck }} | 
+                                                 Wisdom: {{ item.wisdom }} | 
+                                                 Price: {{ item.price }} | 
+                                                 Level: {{ item.level }}">
+                                    {% endwith %}
+                                    {{ item.name }}
+                                </div>
+                                <form method="post" action="{% url 'Inventory:equipment' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                                    <input type="hidden" name="action" value="unequip">
+                                    <button type="submit" class="btn btn-primary custom-button">Unequip</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-4 custom-scrollable-column text-center">
+              <h2 class="mt-6 custom-heading">Player Stats:</h2>
+              <ul class="list-group text-left" style="list-style-type: none; padding-left: 0;">
+                  {% with character_image="character_images/"|add:character.character_class.name|add:" "|add:character.character_race.name|add:" "|add:character.sex|add:".jpg" %}
+                      <li class="list-group-item custom-card text-center">
+                          <div>
+                              <h3>{{ character.name }}</h3>
+                              <img src="{% static character_image %}" alt="{{ character.character_class.name }} {{ character.character_race.name }} {{ character.sex }}" width="140" height="153">
+                              <p>{{ character.character_class.name }} {{ character.character_race.name }} {{ character.sex }}</p>
+                          </div>
+                      </li>
+                  {% endwith %}
+                  <li class="list-group-item custom-card text-center">
+                      <ul style="list-style-type: none; padding-left: 0;">
+                          <li>Strength: {{ character.strength }}</li>
+                          <li>Intelligence: {{ character.intelligence }}</li>
+                          <li>Constitution: {{ character.constitution }}</li>
+                          <li>Dexterity: {{ character.dexterity }}</li>
+                          <li>Luck: {{ character.luck }}</li>
+                          <li>Wisdom: {{ character.wisdom }}</li>
+                          <li>Level: {{ character.level }}</li>
+                      </ul>
+                  </li>
+              </ul>
+              
+          </div>
+          
+          
+
+            <div class="col-md-4 custom-scrollable-column">
+                <h2 class="mt-6 custom-heading">Backpack:</h2>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center custom-card">
+                        <div>
+                            <ul>
+                                <li>Available items: {{ available_item_count }}</li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% for item_type, inventory_items in inventory_items_by_type.items %}
+                        <h3 style="background-color: DarkGray; color: black; font-weight: bold;">{{ item_type|capfirst }}</h3>
+                        {% for item in inventory_items %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center custom-card">
+                                <div>
+                                    {% with image_path="item_images/"|add:item.name|add:".jpg" %}
+                                    <img src="{% static image_path %}" alt="{{ item.name }}" width="80" height="80" 
+                                          data-toggle="tooltip" data-placement="top" 
+                                          title="Strength: {{ item.strength }} | 
+                                                Intelligence: {{ item.intelligence }} | 
+                                                Constitution: {{ item.constitution }} | 
+                                                Dexterity: {{ item.dexterity }} | 
+                                                Luck: {{ item.luck }} | 
+                                                Wisdom: {{ item.wisdom }} | 
+                                                Price: {{ item.price }} | 
+                                                Level: {{ item.level }}">
+                                    {% endwith %}
+                                    {{ item.name }}
+                                </div>
+                                {% if character.level >= item.level %}
+                                    <form method="post" action="{% url 'Inventory:equipment' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                                        <input type="hidden" name="action" value="equip">
+                                        <button type="submit" class="btn btn-primary custom-button">Equip</button>
+                                    </form>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p><a class="btn btn-primary border border-secondary mt-3" href="{% url 'World:main' %}" style="background-color: DarkGray; color: black; font-weight: bold;">Go back to World</a></p>
+    </div>
+</body>
+
+<script>
+    // Initialize Bootstrap tooltips
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+{% endblock content %}
