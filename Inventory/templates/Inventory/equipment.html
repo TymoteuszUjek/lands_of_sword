@@ -48,9 +48,9 @@
                   {% with character_image="character_images/"|add:character.character_class.name|add:" "|add:character.character_race.name|add:" "|add:character.sex|add:".jpg" %}
                       <li class="list-group-item custom-card text-center">
                           <div>
-                              <h3>{{ character.name }}</h3>
+                              <h3>{{ character.name }} </h3>
+                              <p>Level: {{ character.level }}</p>
                               <img src="{% static character_image %}" alt="{{ character.character_class.name }} {{ character.character_race.name }} {{ character.sex }}" width="140" height="153">
-                              <p>{{ character.character_class.name }} {{ character.character_race.name }} {{ character.sex }}</p>
                           </div>
                       </li>
                   {% endwith %}
@@ -62,7 +62,7 @@
                           <li>Dexterity: {{ character.dexterity }}</li>
                           <li>Luck: {{ character.luck }}</li>
                           <li>Wisdom: {{ character.wisdom }}</li>
-                          <li>Level: {{ character.level }}</li>
+                          <li>Gold: {{ character.gold }}<li>
                       </ul>
                   </li>
               </ul>

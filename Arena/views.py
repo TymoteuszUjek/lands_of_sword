@@ -23,6 +23,8 @@ def enemy_select(request):
     # Oblicz dane życiowe gracza i przeciwnika
     user_max_life = int(user_character.hp * ((1 + user_character.constitution * 0.1) * (1 + user_character.wisdom * 0.1)) / 10)
     enemy_max_life = int(enemies.hp * ((1 + enemies.constitution * 0.1) * (1 + enemies.wisdom * 0.1)) / 10)
+    
+    cost_of_fight = 100 * user_character.level
 
     # Przekaz informacje o graczu i przeciwniku do szablonu
     context = {
@@ -30,6 +32,7 @@ def enemy_select(request):
         'enemy_character': enemies,
         'user_max_life': user_max_life,
         'enemy_max_life': enemy_max_life,
+        'cost_of_fight': cost_of_fight,
     }
 
     return render(request, 'Arena/arena_select.html', context)
@@ -65,7 +68,15 @@ def fight(request):
     if enemies == user_character:
         enemy_life = enemy_life/2
     battle_result = None
-    
+    cost_of_fight = 0
+    cost_of_fight += int(100 * user_character.level)
+    if user_character.gold < cost_of_fight:
+        user_character.gold = 0
+        user_character.save()
+    elif user_character.gold >= cost_of_fight:
+        user_character.gold -= cost_of_fight
+        user_character.save()
+       
     earned_gold = 0  # Initialize the earned_gold variable
     earned_exp = 0  # Initialize the earned_exp variable
 
@@ -102,10 +113,10 @@ def fight(request):
         battle_result = 'win'
         user_health = max(0, user_life)
         enemy_health = max(0, enemy_life)
-        
+           
         # Increment earned_exp and earned_gold when the battle is won
         earned_exp += int(user_character.level * 100)
-        earned_gold += int(user_character.level * 10)
+        earned_gold += int(user_character.level * 200)
         
         user_character.experience_points += earned_exp
         user_character.gold += earned_gold
