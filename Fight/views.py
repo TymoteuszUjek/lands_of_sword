@@ -144,7 +144,7 @@ def battle(request):
         user_character.experience_points += earned_exp
         user_character.gold += earned_gold
         
-        user_character.killed_players += 1
+        user_character.killed_monsters += 1
         user_character.collected_gold += earned_gold
         
         user_character.save()
