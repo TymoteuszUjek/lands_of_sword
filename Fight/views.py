@@ -214,6 +214,7 @@ def battle(request):
         'item_message': item_message,
         'earned_gold': earned_gold,
         'earned_exp': earned_exp,
+        'new_inventory_item': new_inventory_item,
     }
     return render(request, 'Fight/battle.html', context)
 
